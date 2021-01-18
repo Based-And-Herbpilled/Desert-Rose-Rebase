@@ -72,9 +72,6 @@
 	toner = tonermax
 	diag_hud_set_borgcell()
 
-	add_verb(src, /mob/living/proc/lay_down) //CITADEL EDIT gimmie rest verb kthx
-	add_verb(src, /mob/living/silicon/robot/proc/rest_style)
-
 //If there's an MMI in the robot, have it ejected when the mob goes away. --NEO
 /mob/living/silicon/robot/Destroy()
 	var/atom/T = drop_location()//To hopefully prevent run time errors.
@@ -489,19 +486,6 @@
 	else
 		return ..()
 
-/mob/living/silicon/robot/crowbar_act(mob/living/user, obj/item/I) //TODO: make fucking everything up there in that attackby() proc use the proper tool_act() procs. But honestly, who has time for that? 'cause I know for sure that you, the person reading this, sure as hell doesn't.
-	var/validbreakout = FALSE
-	for(var/obj/item/dogborg/sleeper/S in held_items)
-		if(!LAZYLEN(S.contents))
-			continue
-		if(!validbreakout)
-			visible_message("<span class='notice'>[user] wedges [I] into the crevice separating [S] from [src]'s chassis, and begins to pry...</span>", "<span class='notice'>You wedge [I] into the crevice separating [S] from [src]'s chassis, and begin to pry...</span>")
-		validbreakout = TRUE
-		S.go_out()
-	if(validbreakout)
-		return TRUE
-	return ..()
-
 /mob/living/silicon/robot/verb/unlock_own_cover()
 	set category = "Robot Commands"
 	set name = "Unlock Cover"
@@ -634,7 +618,7 @@
 	to_chat(src, "[lamp_intensity ? "Headlamp power set to Level [lamp_intensity/2]" : "Headlamp disabled."]")
 	update_headlamp()
 
-/mob/living/silicon/robot/proc/update_headlamp(var/turn_off = 0, var/cooldown = 100)
+/mob/living/silicon/robot/proc/update_headlamp(turn_off = 0, cooldown = 100)
 	set_light(0)
 
 	if(lamp_intensity && (turn_off || stat || low_power_mode))
@@ -957,7 +941,7 @@
 	new_hat.forceMove(src)
 	update_icons()
 
-/mob/living/silicon/robot/proc/make_shell(var/obj/item/borg/upgrade/ai/board)
+/mob/living/silicon/robot/proc/make_shell(obj/item/borg/upgrade/ai/board)
 	if(!board)
 		upgrades |= new /obj/item/borg/upgrade/ai(src)
 	shell = TRUE
@@ -985,7 +969,7 @@
 		builtInCamera.c_tag = real_name
 	diag_hud_set_aishell()
 
-/mob/living/silicon/robot/proc/deploy_init(var/mob/living/silicon/ai/AI)
+/mob/living/silicon/robot/proc/deploy_init(mob/living/silicon/ai/AI)
 	real_name = "[AI.real_name] shell [rand(100, 999)] - [designation]"	//Randomizing the name so it shows up separately in the shells list
 	name = real_name
 	if(!QDELETED(builtInCamera))
@@ -1114,23 +1098,6 @@
 		heal_bodypart_damage(repairs, repairs - 1)
 	if(cell)
 		cell.charge = min(cell.charge + amount, cell.maxcharge)
-
-/mob/living/silicon/robot/proc/rest_style()
-	set name = "Switch Rest Style"
-	set category = "Robot Commands"
-	set desc = "Select your resting pose."
-	sitting = 0
-	bellyup = 0
-	var/choice = alert(src, "Select resting pose", "", "Resting", "Sitting", "Belly up")
-	switch(choice)
-		if("Resting")
-			update_icons()
-			return 0
-		if("Sitting")
-			sitting = 1
-		if("Belly up")
-			bellyup = 1
-	update_icons()
 
 /mob/living/silicon/robot/adjustStaminaLossBuffered(amount, updating_health = 1)
 	if(istype(cell))

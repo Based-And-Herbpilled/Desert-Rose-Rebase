@@ -152,7 +152,7 @@
 		for (var/mob/A in oview(vision_range, targets_from))
 			. += A
 
-/mob/living/simple_animal/hostile/proc/FindTarget(var/list/possible_targets, var/HasTargetsList = 0)//Step 2, filter down possible targets to things we actually care about
+/mob/living/simple_animal/hostile/proc/FindTarget(list/possible_targets, HasTargetsList = 0)//Step 2, filter down possible targets to things we actually care about
 	. = list()
 	if(!HasTargetsList)
 		possible_targets = ListTargets()
@@ -210,8 +210,6 @@
 			return FALSE
 
 	if(see_invisible < the_target.invisibility)//Target's invisible to us, forget it
-		return FALSE
-	if(isbelly(the_target.loc)) //Target's inside a gut, forget about it too
 		return FALSE
 	if(search_objects < 2)
 		if(isliving(the_target))
@@ -355,22 +353,6 @@
 /mob/living/simple_animal/hostile/proc/AttackingTarget()
 	SEND_SIGNAL(src, COMSIG_HOSTILE_ATTACKINGTARGET, target)
 	in_melee = TRUE
-	/* sorry for the simplemob vore fans
-	if(vore_active)
-		if(isliving(target))
-			var/mob/living/L = target
-			if(!client && L.Adjacent(src) && CHECK_BITFIELD(L.vore_flags,DEVOURABLE)) // aggressive check to ensure vore attacks can be made
-				if(prob(voracious_chance))
-					vore_attack(src,L,src)
-				else
-					return L.attack_animal(src)
-			else
-				return L.attack_animal(src) //literally every single fucking one of these need this I guess.
-		else
-			return target.attack_animal(src)
-	else
-		return target.attack_animal(src)
-	*/
 	return target.attack_animal(src)
 
 /mob/living/simple_animal/hostile/proc/Aggro()
@@ -406,7 +388,7 @@
 	playsound(loc, 'sound/machines/chime.ogg', 50, 1, -1)
 	for(var/mob/living/simple_animal/hostile/M in oview(distance, targets_from))
 		if(faction_check_mob(M, TRUE))
-			if(M.AIStatus == AI_OFF)
+			if(M.AIStatus == AI_OFF || M.stat == DEAD)
 				return
 			else
 				M.Goto(src,M.move_to_delay,M.minimum_distance)
@@ -539,7 +521,7 @@ mob/living/simple_animal/hostile/proc/DestroySurroundings() // for use with mega
 	return TRUE
 
 ////// AI Status ///////
-/mob/living/simple_animal/hostile/proc/AICanContinue(var/list/possible_targets)
+/mob/living/simple_animal/hostile/proc/AICanContinue(list/possible_targets)
 	switch(AIStatus)
 		if(AI_ON)
 			. = 1
@@ -550,7 +532,7 @@ mob/living/simple_animal/hostile/proc/DestroySurroundings() // for use with mega
 			else
 				. = 0
 
-/mob/living/simple_animal/hostile/proc/AIShouldSleep(var/list/possible_targets)
+/mob/living/simple_animal/hostile/proc/AIShouldSleep(list/possible_targets)
 	return !FindTarget(possible_targets, 1)
 
 
@@ -601,7 +583,7 @@ mob/living/simple_animal/hostile/proc/DestroySurroundings() // for use with mega
 			FindTarget()
 		toggle_ai(AI_ON)
 
-/mob/living/simple_animal/hostile/proc/ListTargetsLazy(var/_Z)//Step 1, find out what we can see
+/mob/living/simple_animal/hostile/proc/ListTargetsLazy(_Z)//Step 1, find out what we can see
 	var/static/hostile_machines = typecacheof(list(/obj/machinery/porta_turret, /obj/mecha, /obj/structure/destructible/clockwork/ocular_warden))
 	. = list()
 	for (var/I in SSmobs.clients_by_zlevel[_Z])

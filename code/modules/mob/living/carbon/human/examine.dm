@@ -117,11 +117,7 @@
 		for(var/obj/item/organ/genital/dicc in internal_organs)
 			if(istype(dicc) && dicc.is_exposed())
 				. += "[dicc.desc]"
-	if(CHECK_BITFIELD(user.client?.prefs.cit_toggles, VORE_EXAMINE))
-		var/cursed_stuff = attempt_vr(src,"examine_bellies",args) //vore Code
-		if(cursed_stuff)
-			. += cursed_stuff
-//END OF CIT CHANGES
+	//END OF CIT CHANGES
 
 	//Jitters
 	switch(jitteriness)
@@ -420,7 +416,8 @@
 					if(R)
 						. += "<a href='?src=[REF(src)];hud=m;evaluation=1'>\[Medical evaluation\]</a>"
 					if(traitstring)
-						. += "<span class='info'>Detected physiological traits:\n[traitstring]</span>"
+						msg += "<span class='info'>Detected physiological traits:<br></span>"
+						msg += "<span class='info'>[traitstring]</span><br>"
 
 
 

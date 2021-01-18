@@ -759,11 +759,13 @@
 
 /obj/item/melee/transforming/cleaving_saw
 	name = "cleaving saw"
-	desc = "This saw, effective at drawing the blood of beasts, transforms into a long cleaver that makes use of centrifugal force."
-	force = 12
-	force_on = 20 //force when active
+	desc = "This saw is the tool of choice for the Head Hunter. Capable of switching its reach and attack speed on the fly, it's an incredibly useful weapon for slaying the denizens of the wastes. Animal or human, the saw doesn't judge."
+	force = 30
+	force_on = 40 //force when active
 	throwforce = 20
 	throwforce_on = 20
+	reach = 1
+	reach_on = 2
 	icon = 'icons/obj/lavaland/artefacts.dmi'
 	lefthand_file = 'icons/mob/inhands/64x64_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/64x64_righthand.dmi'
@@ -825,7 +827,7 @@
 		to_chat(user, "<span class='warning'>You accidentally cut yourself with [src], like a doofus!</span>")
 		user.take_bodypart_damage(10)
 
-/obj/item/melee/transforming/cleaving_saw/nemesis_effects(mob/living/user, mob/living/target)
+/*/obj/item/melee/transforming/cleaving_saw/nemesis_effects(mob/living/user, mob/living/target)
 	var/datum/status_effect/stacking/saw_bleed/B = target.has_status_effect(STATUS_EFFECT_SAWBLEED)
 	if(!B)
 		target.apply_status_effect(STATUS_EFFECT_SAWBLEED,bleed_stacks_per_hit)
@@ -850,7 +852,7 @@
 				if(user.Adjacent(L) && L.density)
 					melee_attack_chain(user, L)
 		swiping = FALSE
-
+*/
 //Dragon
 
 /obj/structure/closet/crate/necropolis/dragon

@@ -7,6 +7,7 @@
 	anchored = TRUE
 	var/obj/structure/ladder/down   //the ladder below this one
 	var/obj/structure/ladder/up     //the ladder above this one
+	var/move_me = TRUE
 
 /obj/structure/ladder/Initialize(mapload, obj/structure/ladder/up, obj/structure/ladder/down)
 	..()
@@ -63,7 +64,7 @@
 		icon_state = "ladder10"
 
 	else if(down)
-		icon_state = "ladder01"
+		icon_state = "manhole_open"
 
 	else	//wtf make your ladders properly assholes
 		icon_state = "ladder00"
@@ -152,6 +153,7 @@
 	name = "sturdy ladder"
 	desc = "An extremely sturdy metal ladder."
 	resistance_flags = INDESTRUCTIBLE
+	move_me = FALSE
 	var/id
 	var/height = 0  // higher numbers are considered physically higher
 

@@ -216,7 +216,7 @@
 	config_entry_value = "https://desertrosefallout13.boards.net"
 
 /datum/config_entry/string/rulesurl
-	config_entry_value = "http://www.tgstation13.org/wiki/Rules"
+	config_entry_value = "https://discord.gg/NGpP36m"
 
 /datum/config_entry/string/githuburl
 	config_entry_value = "https://github.com/Superballs69/Desert-Rose-Rebase"
@@ -329,6 +329,9 @@
 
 /datum/config_entry/number/notify_new_player_account_age	// how long do we notify admins of a new byond account
 	min_val = 0
+
+/datum/config_entry/flag/age_verification //are we using the automated age verification which asks users if they're 18+?
+	config_entry_value = TRUE
 
 /datum/config_entry/flag/irc_first_connection_alert	// do we notify the irc channel when somebody is connecting for the first time?
 

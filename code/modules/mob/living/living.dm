@@ -254,6 +254,8 @@
 		step(src, t)
 	if(current_dir)
 		AM.setDir(current_dir)
+	if(client && AM.drag_delay)
+		client.move_delay += AM.drag_delay
 	now_pushing = FALSE
 
 /mob/living/start_pulling(atom/movable/AM, state, force = pull_force, supress_message = FALSE)
@@ -485,6 +487,19 @@
 	to_chat(src, "<span class='notice'>You are now [resting ? "resting" : "getting up"].</span>")
 	update_canmove()
 */
+
+/mob/living/proc/surrender()
+	set name = "Surrender"
+	set category = "IC"
+
+	var/mob/living/M
+	if(CHECK_MOBILITY(M, MOBILITY_STAND))
+		if(!lying)
+			lay_down()
+
+		Knockdown(200)
+		visible_message("<span class='big bold'>[src] surrenders!</span>")
+		playsound(loc, 'sound/f13effects/surrender.ogg', 50, 1)
 
 //Recursive function to find everything a mob is holding. Really shitty proc tbh.
 /mob/living/get_contents()
@@ -720,11 +735,6 @@
 	if(buckled)
 		log_combat(src, buckled, "resisted buckle")
 		return resist_buckle()
-
-	// CIT CHANGE - climbing out of a gut.
-	if(attempt_vr(src,"vore_process_resist",args))
-		//Sure, give clickdelay for anti spam. shouldn't be combat voring anyways.
-		return TRUE
 
 	//Breaking out of a container (Locker, sleeper, cryo...)
 	if(isobj(loc))
@@ -1131,7 +1141,7 @@
 //Mobs on Fire end
 
 // used by secbot and monkeys Crossed
-/mob/living/proc/knockOver(var/mob/living/carbon/C)
+/mob/living/proc/knockOver(mob/living/carbon/C)
 	if(C.key) //save us from monkey hordes
 		C.visible_message("<span class='warning'>[pick( \
 						"[C] dives out of [src]'s way!", \

@@ -24,7 +24,7 @@
 	var/dense_when_open = FALSE //if it's dense when open or not
 	var/max_mob_size = MOB_SIZE_HUMAN //Biggest mob_size accepted by the container
 	var/mob_storage_capacity = 3 // how many human sized mob/living can fit together inside a closet.
-	var/storage_capacity = 30 //This is so that someone can't pack hundreds of items in a locker/crate then open it in a populated area to crash clients.
+	var/storage_capacity = 6 //This is so that someone can't pack hundreds of items in a locker/crate then open it in a populated area to crash clients.
 	var/cutting_tool = /obj/item/weldingtool
 	var/open_sound = 'sound/machines/click.ogg'
 	var/close_sound = 'sound/machines/click.ogg'
@@ -38,6 +38,9 @@
 	var/eigen_teleport = FALSE //If the closet leads to Mr Tumnus.
 	var/obj/structure/closet/eigen_target //Where you go to.
 	var/should_populate_contents = TRUE
+	barricade = TRUE
+	proj_pass_rate = 65
+	drag_delay = 0.2 SECONDS
 
 /obj/structure/closet/Initialize(mapload)
 	. = ..()
@@ -143,7 +146,7 @@
 			return FALSE
 	return TRUE
 
-/obj/structure/closet/proc/can_lock(mob/living/user, var/check_access = TRUE) //set check_access to FALSE if you only need to check if a locker has a functional lock rather than access
+/obj/structure/closet/proc/can_lock(mob/living/user, check_access = TRUE) //set check_access to FALSE if you only need to check if a locker has a functional lock rather than access
 	if(!secure)
 		return FALSE
 	if(broken)
@@ -171,7 +174,7 @@
 	"<span class='notice'>You [locked ? null : "un"]lock [src].</span>")
 	update_icon()
 
-/obj/structure/closet/proc/dump_contents(var/override = TRUE) //Override is for not revealing the locker electronics when you open the locker, for example
+/obj/structure/closet/proc/dump_contents(override = TRUE) //Override is for not revealing the locker electronics when you open the locker, for example
 	var/atom/L = drop_location()
 	for(var/atom/movable/AM in src)
 		if(AM == lockerelectronics && override)
@@ -436,13 +439,13 @@
 	var/list/targets = list(O, src)
 	add_fingerprint(user)
 	user.visible_message("<span class='warning'>[user] [actuallyismob ? "tries to ":""]stuff [O] into [src].</span>", \
-				 	 	"<span class='warning'>You [actuallyismob ? "try to ":""]stuff [O] into [src].</span>", \
-				 	 	"<span class='italics'>You hear clanging.</span>")
+						"<span class='warning'>You [actuallyismob ? "try to ":""]stuff [O] into [src].</span>", \
+						"<span class='italics'>You hear clanging.</span>")
 	if(actuallyismob)
 		if(do_after_mob(user, targets, 40))
 			user.visible_message("<span class='notice'>[user] stuffs [O] into [src].</span>", \
-							 	 "<span class='notice'>You stuff [O] into [src].</span>", \
-							 	 "<span class='italics'>You hear a loud metal bang.</span>")
+								"<span class='notice'>You stuff [O] into [src].</span>", \
+								"<span class='italics'>You hear a loud metal bang.</span>")
 			var/mob/living/L = O
 			if(!issilicon(L))
 				L.DefaultCombatKnockdown(40)

@@ -165,7 +165,7 @@
 
 //Spawns the entire contents of the outfit into a location.
 //This could be a turf or a container, it should probably be one of those two
-/datum/outfit/proc/spawn_at(var/atom/location)
+/datum/outfit/proc/spawn_at(atom/location)
 	var/list/paths = get_all_item_paths()
 	var/list/items = list()
 	for (var/a in paths)
@@ -241,9 +241,14 @@
 	var/list/items = get_all_item_paths()
 	for (var/item in items)
 		var/list/subdata = list()
-		var/datum/outfit/d = item
-		subdata["name"] = initial(d.name)
-		subdata["icon"] = loadout_sheet.icon_class_name(replacetext(replacetext("[item]", "/obj/item/", ""), "/", "-"))
+		var/atom/I = item
+		subdata["name"] = initial(I.name)
+		var/iconfile = "[initial(I.icon)]" // doesn't work if you directly embed it
+		var/icon_string = "[sanitize_filename(replacetext(replacetext(iconfile, "icons/", ""), ".dmi", ""))]-[initial(I.icon_state)]"
+		var/c = initial(I.color)
+		if(!isnull(c) && uppertext(c) != "#FFFFFF")
+			icon_string += "-[c]"
+		subdata["icon"] = loadout_sheet.icon_class_name(icon_string)
 		subdata["quantity"] = items[item]
 		data += list(subdata)
 	return data

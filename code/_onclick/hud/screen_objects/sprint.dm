@@ -5,7 +5,7 @@
 	name = "toggle sprint"
 	icon = 'modular_citadel/icons/ui/screen_midnight.dmi'
 	icon_state = "act_sprint"
-	layer = ABOVE_HUD_LAYER - 0.1
+	layer = HUD_LAYER - 0.1
 	var/mutable_appearance/flashy
 
 /obj/screen/sprintbutton/Click()
@@ -48,8 +48,7 @@
 /obj/screen/sprint_buffer/Click()
 	if(isliving(usr))
 		var/mob/living/L = usr
-		to_chat(L, "<span class='boldnotice'>Your sprint buffer's maximum capacity is [L.sprint_buffer_max]. It is currently at [L.sprint_buffer], regenerating at [L.sprint_buffer_regen_ds * 10] per second. \
-		Sprinting while this is empty will incur a [L.sprint_stamina_cost] stamina cost per tile.</span>")
+		to_chat(L, "<span class='boldnotice'>Your sprint buffer's maximum capacity is [L.sprint_buffer_max]. It is currently at [L.sprint_buffer], regenerating at [L.sprint_buffer_regen_ds * 10] per second.")
 
 /obj/screen/sprint_buffer/proc/update_to_mob(mob/living/L)
 	var/amount = 0

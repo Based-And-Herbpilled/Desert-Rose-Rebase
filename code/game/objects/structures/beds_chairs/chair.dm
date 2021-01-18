@@ -160,7 +160,7 @@
 	buildstacktype = null //Custom mats handle this
 
 /obj/structure/chair/wood
-	icon_state = "wooden_chair"
+	icon_state = "wooden_chair_settler"
 	name = "wooden chair"
 	desc = "Old is never too old to not be in fashion."
 	resistance_flags = FLAMMABLE
@@ -260,6 +260,7 @@
 	anchored = FALSE
 	buildstackamount = 5
 	item_chair = null
+	drag_delay = 0.05 SECONDS //Pulling something on wheels is easy
 
 /obj/structure/chair/f13foldupchair
 	icon_state = "f13foldupchair"
@@ -560,7 +561,7 @@
 
 /obj/item/chair/wood
 	name = "wooden chair"
-	icon_state = "wooden_chair_toppled"
+	icon_state = "wooden_chair_settler_toppled"
 	item_state = "woodenchair"
 	resistance_flags = FLAMMABLE
 	max_integrity = 70

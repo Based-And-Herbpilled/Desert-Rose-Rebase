@@ -329,6 +329,12 @@
 			return "Network Access"
 		if(ACCESS_CLONING)
 			return "Cloning Room"
+		if(ACCESS_BOS)
+			return "BOS Access"
+		if(ACCESS_NCR)
+			return "NCR Access"
+		if (ACCESS_NCROFFDUTY)
+			return "NCR Off-Duty Access"
 
 /proc/get_centcom_access_desc(A)
 	switch(A)
@@ -355,7 +361,7 @@
 	return list("Centurion", "NCR Captain", "Overseer", "Sheriff",
 				"Sentinel", "Senior Paladin", "Paladin", "Knight-Captain", "Senior Knight", "Knight", "Head Scribe", "Senior Scribe", "Scribe", "Initiate",
 				"Veteran Decanus", "Vexillarius", "Decanus", "Veteran Legionnaire", "Prime Legionary",
-				"NCR Lieutenant", "NCR Sergeant", "NCR Heavy Trooper", "NCR Military Police", "NCR Trooper", "NCR Recruit",
+				"NCR Lieutenant", "NCR First Sergeant", "NCR Sergeant", ,"NCR Corporal", "NCR Specialist", "NCR Trooper",
 				"NCR Veteran Ranger", "NCR Patrol Ranger", "NCR Recon Ranger",
 				"NCR Scout", "NCR Scout Sergeant", "NCR Scout Lieutenant",
 				"Chief of Security", "Vault-tec Doctor", "Vault-tec Scientist",

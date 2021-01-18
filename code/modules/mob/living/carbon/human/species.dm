@@ -927,7 +927,7 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 
 /* TODO: Snowflake trail marks
 // Impliments different trails for species depending on if they're wearing shoes.
-/datum/species/proc/get_move_trail(var/mob/living/carbon/human/H)
+/datum/species/proc/get_move_trail(mob/living/carbon/human/H)
 	if(H.lying)
 		return /obj/effect/decal/cleanable/blood/footprints/tracks/body
 	if(H.shoes || (H.wear_suit && (H.wear_suit.body_parts_covered & FEET)))
@@ -1930,8 +1930,8 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 	return
 
 /**
-  * The human species version of [/mob/living/carbon/proc/get_biological_state]. Depends on the HAS_FLESH and HAS_BONE species traits, having bones lets you have bone wounds, having flesh lets you have burn, slash, and piercing wounds
-  */
+ * The human species version of [/mob/living/carbon/proc/get_biological_state]. Depends on the HAS_FLESH and HAS_BONE species traits, having bones lets you have bone wounds, having flesh lets you have burn, slash, and piercing wounds
+ */
 /datum/species/proc/get_biological_state(mob/living/carbon/human/H)
 	. = BIO_INORGANIC
 	if(HAS_FLESH in species_traits)
@@ -1976,19 +1976,19 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 				H.adjust_bodytemperature(natural*(1/(thermal_protection+1)) + min(thermal_protection * (loc_temp - H.bodytemperature) / BODYTEMP_HEAT_DIVISOR, BODYTEMP_HEATING_MAX))
 		switch((loc_temp - H.bodytemperature)*thermal_protection)
 			if(-INFINITY to -50)
-				H.throw_alert("tempfeel", /obj/screen/alert/cold, 3)
+				H.throw_alert("tempfeel", /obj/screen/alert/shiver, 3)
 			if(-50 to -35)
-				H.throw_alert("tempfeel", /obj/screen/alert/cold, 2)
+				H.throw_alert("tempfeel", /obj/screen/alert/shiver, 2)
 			if(-35 to -20)
-				H.throw_alert("tempfeel", /obj/screen/alert/cold, 1)
+				H.throw_alert("tempfeel", /obj/screen/alert/shiver, 1)
 			if(-20 to 0) //This is the sweet spot where air is considered normal
 				H.clear_alert("tempfeel")
 			if(0 to 15) //When the air around you matches your body's temperature, you'll start to feel warm.
-				H.throw_alert("tempfeel", /obj/screen/alert/hot, 1)
+				H.throw_alert("tempfeel", /obj/screen/alert/sweat, 1)
 			if(15 to 30)
-				H.throw_alert("tempfeel", /obj/screen/alert/hot, 2)
+				H.throw_alert("tempfeel", /obj/screen/alert/sweat, 2)
 			if(30 to INFINITY)
-				H.throw_alert("tempfeel", /obj/screen/alert/hot, 3)
+				H.throw_alert("tempfeel", /obj/screen/alert/sweat, 3)
 
 	// +/- 50 degrees from 310K is the 'safe' zone, where no damage is dealt.
 	if(H.bodytemperature > BODYTEMP_HEAT_DAMAGE_LIMIT && !HAS_TRAIT(H, TRAIT_RESISTHEAT))
@@ -2009,11 +2009,11 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 		if (burn_damage)
 			switch(burn_damage)
 				if(0 to 2)
-					H.throw_alert("temp", /obj/screen/alert/sweat, 1)
+					H.throw_alert("temp", /obj/screen/alert/hot, 1)
 				if(2 to 4)
-					H.throw_alert("temp", /obj/screen/alert/sweat, 2)
+					H.throw_alert("temp", /obj/screen/alert/hot, 2)
 				else
-					H.throw_alert("temp", /obj/screen/alert/sweat, 3)
+					H.throw_alert("temp", /obj/screen/alert/hot, 3)
 		burn_damage = burn_damage * heatmod * H.physiology.heat_mod
 		if (H.stat < UNCONSCIOUS && (prob(burn_damage) * 10) / 4) //40% for level 3 damage on humans
 			H.emote("scream")
@@ -2026,13 +2026,13 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 		H.add_or_update_variable_movespeed_modifier(/datum/movespeed_modifier/cold, multiplicative_slowdown = ((BODYTEMP_COLD_DAMAGE_LIMIT - H.bodytemperature) / COLD_SLOWDOWN_FACTOR))
 		switch(H.bodytemperature)
 			if(200 to BODYTEMP_COLD_DAMAGE_LIMIT)
-				H.throw_alert("temp", /obj/screen/alert/shiver, 1)
+				H.throw_alert("temp", /obj/screen/alert/cold, 1)
 				H.apply_damage(COLD_DAMAGE_LEVEL_1*coldmod*H.physiology.cold_mod, BURN)
 			if(120 to 200)
-				H.throw_alert("temp", /obj/screen/alert/shiver, 2)
+				H.throw_alert("temp", /obj/screen/alert/cold, 2)
 				H.apply_damage(COLD_DAMAGE_LEVEL_2*coldmod*H.physiology.cold_mod, BURN)
 			else
-				H.throw_alert("temp", /obj/screen/alert/shiver, 3)
+				H.throw_alert("temp", /obj/screen/alert/cold, 3)
 				H.apply_damage(COLD_DAMAGE_LEVEL_3*coldmod*H.physiology.cold_mod, BURN)
 
 	else

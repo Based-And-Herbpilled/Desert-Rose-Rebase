@@ -135,9 +135,6 @@
 #define ATTACK_EFFECT_MECHTOXIN	"mech_toxin"
 #define ATTACK_EFFECT_BOOP		"boop" //Honk
 
-#define IS_BLUNT			0
-#define IS_SHARP			1
-#define IS_SHARP_ACCURATE	2
 //intent defines
 #define INTENT_HELP   "help"
 #define INTENT_GRAB   "grab"
@@ -292,7 +289,7 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 #define STAM_RECOVERY_LIMB			4 //limbs recover stamina separately from handle_status_effects(), and aren't blocked by combat mode.
 
 /**
-  * should the current-attack-damage be lower than the item force multiplied by this value,
-  * a "inefficiently" prefix will be added to the message.
-  */
+ * should the current-attack-damage be lower than the item force multiplied by this value,
+ * a "inefficiently" prefix will be added to the message.
+ */
 #define FEEBLE_ATTACK_MSG_THRESHOLD 0.5

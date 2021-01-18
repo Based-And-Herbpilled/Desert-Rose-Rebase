@@ -24,7 +24,7 @@ Colonel
 /datum/job/ncr/f13colonel
 	title = "NCR Colonel"
 	flag = F13COLONEL
-//	faction = "Station"
+	faction = "NCR"
 	head_announce = list("Security")
 	supervisors = "the general"
 	req_admin_notify = 1
@@ -39,13 +39,16 @@ Colonel
 	if(visualsOnly)
 		return
 	ADD_TRAIT(H, TRAIT_TECHNOPHREAK, src)
+	ADD_TRAIT(H, TRAIT_GENERIC, src)
 
 /datum/outfit/job/ncr/f13colonel
 	name 		= "NCR Colonel"
 	jobtype 	= /datum/job/ncr/f13colonel
+	pa_wear = TRUE
+	id 			= /obj/item/card/id/dogtag/ncrcolonel
 	uniform		= /obj/item/clothing/under/f13/ncr
 	accessory 	= /obj/item/clothing/accessory/ncr
-	suit 		= /obj/item/clothing/suit/armor/f13/power_armor/t45d/sierra
+	r_hand 		= /obj/item/clothing/suit/armor/f13/power_armor/t45d/sierra
 	head 		= /obj/item/clothing/head/beret/ncr
 	belt        = /obj/item/storage/belt/military/assault/ncr
 	glasses 	= /obj/item/clothing/glasses/sunglasses/big
@@ -71,7 +74,7 @@ Captain
 	description = "You are the commanding officer of your company and direct superior to the Veteran Ranger and Lieutenant. Coordinating with your staff, you must ensure that the objectives of High Command are completed to the letter. Working closely with your subordinates on logistics, mission planning and special operations with the Rangers, you are here to establish a strong foothold for the NCR within the region."
 	supervisors = "Colonel"
 	req_admin_notify = 1
-	display_order = JOB_DISPLAY_ORDER_CAPTAIN
+	display_order = JOB_DISPLAY_ORDER_CAPTAIN_NCR
 	outfit = /datum/outfit/job/ncr/f13captain
 
 	loadout_options = list(
@@ -80,11 +83,15 @@ Captain
 	/datum/outfit/loadout/captpistol //Grease Gun, Deagle
 	)
 
-/datum/outfit/job/ncr/f13captain/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+/datum/outfit/job/ncr/f13captain/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	..()
 	if(visualsOnly)
 		return
 	ADD_TRAIT(H, TRAIT_TECHNOPHREAK, src)
+	ADD_TRAIT(H, TRAIT_GENERIC, src)
+	ADD_TRAIT(H, TRAIT_HARD_YARDS, src)
+	ADD_TRAIT(H, TRAIT_LIFEGIVER, src)
+	ADD_TRAIT(H, TRAIT_SELF_AWARE, src)
 
 /datum/outfit/job/ncr/f13captain
 	name = "NCR Captain"
@@ -98,14 +105,9 @@ Captain
 	backpack_contents = list(
 		/obj/item/kitchen/knife/combat=1, \
 		/obj/item/melee/classic_baton/telescopic=1, \
-		/obj/item/twohanded/binocs=1, \
+		/obj/item/binoculars=1, \
 		/obj/item/storage/bag/money/small/ncr, \
 		/obj/item/clothing/mask/ncr_facewrap)
-
-/datum/job/ncr/f13captain/after_spawn(mob/living/carbon/human/H, mob/M)
-	H.add_quirk("Hard Yards")
-	H.add_quirk("Lifegiver")
-	H.add_quirk("Self-Aware")
 
 /datum/outfit/loadout/captline
 	name = "Line Officer"
@@ -167,6 +169,7 @@ Lieutenant
 	if(visualsOnly)
 		return
 	ADD_TRAIT(H, TRAIT_TECHNOPHREAK, src)
+	ADD_TRAIT(H, TRAIT_GENERIC, src)
 
 /datum/outfit/job/ncr/f13lieutenant
 	name = "NCR Lieutenant"
@@ -184,7 +187,7 @@ Lieutenant
 		/obj/item/melee/classic_baton/telescopic=1, \
 		/obj/item/reagent_containers/hypospray/medipen/stimpak=1, \
 		/obj/item/ammo_box/m44=2, \
-		/obj/item/twohanded/binocs=1, \
+		/obj/item/binoculars=1, \
 		/obj/item/storage/bag/money/small/ncrofficers, \
 		/obj/item/clothing/mask/ncr_facewrap)
 
@@ -221,13 +224,13 @@ Lieutenant
 	backpack_contents = list(
 		/obj/item/ammo_box/magazine/m556/rifle/assault=3,
 		/obj/item/grenade/plastic=1,
-		/obj/item/book/granter/trait/gunsmith_four=1)
+		/obj/item/book/granter/crafting_recipe/gunsmith_four=1)
 
 /datum/outfit/loadout/ltsup
 	name = "Support Officer"
 	head = 			/obj/item/clothing/head/helmet/f13/power_armor/t45b
 	suit = 			/obj/item/clothing/suit/armor/f13/power_armor/ncr
-	suit_store = 	/obj/item/gun/ballistic/automatic/lmg
+	suit_store = 	/obj/item/gun/ballistic/automatic/r84
 	uniform = 		/obj/item/clothing/under/f13/recon
 	belt = 			/obj/item/storage/belt/military/assault/ncr
 	backpack_contents = list(
@@ -255,9 +258,10 @@ First Sergeant
 
 /datum/outfit/job/ncr/f13firstsergeant
 	name = "NCR First Sergeant"
+	jobtype = /datum/job/ncr/f13firstsergeant
 	id = 			/obj/item/card/id/dogtag/ncrsergeant
 	uniform =  		/obj/item/clothing/under/f13/ncr
-	accessory =     /obj/item/clothing/accessory/ncr/SGT
+	accessory =     /obj/item/clothing/accessory/ncr/FSGT
 	glasses = 		/obj/item/clothing/glasses/sunglasses/big
 	neck = 			/obj/item/storage/belt/holster
 	backpack_contents = list(
@@ -404,7 +408,7 @@ Specialist
 	title = "NCR Specialist"
 	flag = F13SPECIALIST
 	total_positions = 3
-	spawn_positions = 3
+	spawn_positions = 4
 	description = "You are a veteran enlisted with a specialized skill set. You work closely with your squad, taking orders from your officers. You have the authority to command troopers if there are none present."
 	supervisors = "Corporals and above"
 	selection_color = "#fff5cc"
@@ -453,7 +457,7 @@ Specialist
 	name = "Support"
 	head = 			/obj/item/clothing/head/helmet/f13/power_armor/t45b
 	suit = 			/obj/item/clothing/suit/armor/f13/power_armor/ncr
-	suit_store = 	/obj/item/gun/ballistic/automatic/lmg
+	suit_store = 	/obj/item/gun/ballistic/automatic/r84
 	uniform = 		/obj/item/clothing/under/f13/recon
 	belt = 			/obj/item/storage/belt/military/assault/ncr
 	gloves = 		/obj/item/clothing/gloves/f13/leather
@@ -471,7 +475,7 @@ Specialist
 	backpack_contents = list(
 		/obj/item/ammo_box/magazine/m556=3,
 		/obj/item/grenade/plastic=1,
-		/obj/item/book/granter/trait/gunsmith_four=1
+		/obj/item/book/granter/crafting_recipe/gunsmith_four=1
 		)
 
 /*
@@ -482,7 +486,7 @@ Trooper
 	title = "NCR Trooper"
 	flag = F13TROOPER
 	total_positions = 4
-	spawn_positions = 4
+	spawn_positions = 10
 	description = "You are considered the backbone and workforce strength of the NCR Army. You answer to everyone above you in the chain of command, taking orders from your Sergeant directly and obeying all commands given by officers such as the Lieutenant and Captain."
 	supervisors = "Corporals and above"
 	selection_color = "#fff5cc"
@@ -547,16 +551,15 @@ Veteran Ranger
 	/datum/outfit/loadout/vrbrush //Scoped Brushgun and Sequoia
 	)
 
-/datum/job/ncr/f13vetranger/after_spawn(mob/living/carbon/human/H, mob/M)
-	H.add_quirk("Hard Yards")
-	H.add_quirk("Lifegiver")
-	H.add_quirk("Iron Fist")
-
-/datum/outfit/job/ncr/f13vetranger/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+/datum/outfit/job/ncr/f13vetranger/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	..()
 	if(visualsOnly)
 		return
+	ADD_TRAIT(H, TRAIT_HARD_YARDS, src)
+	ADD_TRAIT(H, TRAIT_LIFEGIVER, src)
+	ADD_TRAIT(H, TRAIT_IRONFIST, src)
 	ADD_TRAIT(H, TRAIT_TECHNOPHREAK, src)
+	ADD_TRAIT(H, TRAIT_GENERIC, src)
 
 /datum/outfit/job/ncr/f13vetranger
 	name = "NCR Veteran Ranger"
@@ -569,7 +572,7 @@ Veteran Ranger
 	gloves =		/obj/item/clothing/gloves/rifleman
 	shoes =			/obj/item/clothing/shoes/f13/military/leather
 	glasses = 		/obj/item/clothing/glasses/orange
-	r_pocket = 		/obj/item/twohanded/binocs
+	r_pocket = 		/obj/item/binoculars
 	backpack_contents = list(
 		/obj/item/gun/ballistic/revolver/sequoia=1, \
 		/obj/item/ammo_box/c4570=3, \
@@ -607,14 +610,13 @@ Veteran Ranger
 	display_order = JOB_DISPLAY_ORDER_RANGERPATROL
 	outfit = /datum/outfit/job/ncr/f13rangerpatrol
 
-/datum/job/ncr/f13rangerpatrol/after_spawn(mob/living/carbon/human/H, mob/M)
-	H.add_quirk("Hard Yards")
-
-/datum/outfit/job/ncr/f13ranger/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+/datum/outfit/job/ncr/f13ranger/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	..()
 	if(visualsOnly)
 		return
+	ADD_TRAIT(H, TRAIT_HARD_YARDS, src)
 	ADD_TRAIT(H, TRAIT_TECHNOPHREAK, src)
+	ADD_TRAIT(H, TRAIT_GENERIC, src)
 
 /datum/outfit/job/ncr/f13rangerpatrol
 	name = "NCR Patrol Ranger"
@@ -628,7 +630,7 @@ Veteran Ranger
 	shoes =			/obj/item/clothing/shoes/f13/military/leather
 	glasses = 		/obj/item/clothing/glasses/orange
 	suit_store =	/obj/item/gun/ballistic/automatic/marksman
-	r_pocket = /obj/item/twohanded/binocs
+	r_pocket = /obj/item/binoculars
 	backpack_contents = list(
 		/obj/item/gun/ballistic/revolver/m29,
 		/obj/item/ammo_box/m44=2, \
@@ -655,15 +657,14 @@ Veteran Ranger
 	/datum/outfit/loadout/rangertrail //M1 Garand and .44,
 	)
 
-/datum/job/ncr/f13rangerscout/after_spawn(mob/living/carbon/human/H, mob/M)
-	H.add_quirk("Hard Yards")
-	H.add_quirk("Light Step")
-
-/datum/outfit/job/ncr/f13ranger/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+/datum/outfit/job/ncr/f13ranger/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	..()
 	if(visualsOnly)
 		return
+	ADD_TRAIT(H, TRAIT_HARD_YARDS, src)
+	ADD_TRAIT(H, TRAIT_LIGHT_STEP, src)
 	ADD_TRAIT(H, TRAIT_TECHNOPHREAK, src)
+	ADD_TRAIT(H, TRAIT_GENERIC, src)
 
 /datum/outfit/job/ncr/f13rangerscout
 	name = "NCR Scout Ranger"
@@ -673,7 +674,7 @@ Veteran Ranger
 	gloves =		/obj/item/clothing/gloves/patrol
 	shoes =			/obj/item/clothing/shoes/f13/military/leather
 	glasses = 		/obj/item/clothing/glasses/sunglasses
-	r_pocket = 		/obj/item/twohanded/binocs
+	r_pocket = 		/obj/item/binoculars
 	backpack_contents = list(
 		/obj/item/gun/ballistic/revolver/m29,
 		/obj/item/ammo_box/m44=2, \
